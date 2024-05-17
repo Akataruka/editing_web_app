@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Image</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            background: black;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar bg-body-tertiary bg-dark border-bottom border-body " data-bs-theme="dark">
+        <div class="container-fluid mx-5">
+            <div>
+                <a class="navbar-brand" href="/">
+                    <img src="../static/images/logo.png" alt="Logo" width="35" height="30"
+                        class="d-inline-block align-text-top rounded bg-black">
+                    <span class="h3  mx-3 text-light">Editit</span>
+                </a>
+            </div>
+            <div class="h2 text-danger  mx-auto">Image Editor</div>
+        </div>
+    </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+
+    {% for category, message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> {{ message | safe}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+
+    {% endif %}
+    {% endwith %}
+
+    <div class="container" style="height: 80vh;width: 70vw;">
+        <div class="full-width-image"
+            style="height: 50vh;width:40vw;margin: auto;margin-top: 2em;">
+            <img src="/static/images/result.jpg"  style="height: 100%;width: 100%;  object-fit: contain;"  alt="error">
+        </div>
+        <button type="button" class="btn btn-primary"><a href="/downloadimage" class="text-light">Download</a></button>
+
+        <form action="/editimage" method="post" enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label for="formFile" class="form-label text-light">Select an Image to edit</label>
+                <input class="form-control" type="file" name="file" id="formFile">
+            </div>
+            <div class="mb-3">
+                <div class="form-floating">
+                    <select name="operation" class="form-select" id="floatingSelect"
+                        aria-label="Floating label select example">
+                        <option selected>Choose an Operation</option>
+                        {% for item in option %}
+                        <option value={{loop.index}}>{{item}}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="floatingSelect" class="text-light">Select an Editing Operation</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+
+        </form>
+    </div>
+
+
+
+</body>
+
+</html>
